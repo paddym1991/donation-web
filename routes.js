@@ -1,7 +1,7 @@
-const Controller = require('./controller.js');
+const Donations = require('./app/controllers/donations');
 
 module.exports = [
 
-  { method: 'GET', path: '/', config: Controller.index },
+  { method: 'GET', path: '/', config: Donations.home },
 
 ];
