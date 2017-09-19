@@ -8,8 +8,11 @@ module.exports = [
   {
     method: 'GET',
     path: '/{param*}',
-    config: { auth: false },
+    config: {auth: false},
     handler: Assets.servePublicDirectory,
   },
+
+  { method: 'GET', path: '/signup', config: Donations.signup },
+  { method: 'GET', path: '/login', config: Donations.login },
 
 ];
