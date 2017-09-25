@@ -5,8 +5,9 @@ const Hapi = require('hapi');
 var server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 4000 });
 
-//store some of the donations the user makes in an simple array
+//store a list of users and donations in a simple array
 server.bind({
+  users: [],
   donations: [],
 });
 

@@ -16,6 +16,14 @@ exports.signup = {
 
 };
 
+exports.register = {
+
+  handler: function (request, reply) {
+    reply.redirect('/home');
+  },
+
+};
+
 exports.login = {
 
   handler: function (request, reply) {
