@@ -3,7 +3,7 @@
 exports.home = {
 
   handler: (request, reply) => {
-    reply.file('./app/views/main.html');
+    reply.view('main', { title: 'Welcome to Donations' });
   },
 
 };
@@ -11,7 +11,7 @@ exports.home = {
 exports.signup = {
 
   handler: (request, reply) => {
-    reply.file('./app/views/signup.html');
+    reply.view('signup', { title: 'Sign up to Donations' });
   },
 
 };
@@ -19,7 +19,7 @@ exports.signup = {
 exports.login = {
 
   handler: (request, reply) => {
-    reply.file('./app/views/login.html');
+    reply.view('login', { title: 'Login to Donations' });
   },
 
 };
