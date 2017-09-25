@@ -43,7 +43,7 @@ exports.authenticate = {
     console.log('this is authenticating');
     console.log(this.users);
     for (let i = 0; i < this.users.length; i++) {
-      if ((data.email == this.users[i].email) && (data.password == this.users[i].password)) {
+      if ((data.email === this.users[i].email) && (data.password === this.users[i].password)) {
         this.currentUser = this.users[i];
         reply.redirect('/home');
       } else {
