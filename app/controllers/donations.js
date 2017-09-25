@@ -3,23 +3,23 @@
 exports.home = {
 
   handler: (request, reply) => {
-    reply.view('main', { title: 'Welcome to Donations' });
+    reply.view('home', { title: 'Make a Donation' });
   },
 
 };
 
-exports.signup = {
+exports.report = {
 
   handler: (request, reply) => {
-    reply.view('signup', { title: 'Sign up to Donations' });
+    reply.view('report', { title: 'Donations to Date' });
   },
 
 };
 
-exports.login = {
+exports.donate = {
 
-  handler: (request, reply) => {
-    reply.view('login', { title: 'Login to Donations' });
+  handler: function(request, reply) {
+    reply.redirect('report');
   },
 
 };
