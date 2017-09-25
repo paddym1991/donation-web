@@ -8,18 +8,25 @@ exports.home = {
 
 };
 
+//retrieve donations array
 exports.report = {
 
-  handler: (request, reply) => {
-    reply.view('report', { title: 'Donations to Date' });
+  handler: function (request, reply) {
+    reply.view('report', {
+      title: 'Donations to Date',
+      donations: this.donations,
+    });
   },
 
 };
 
+//store donation in donations array
 exports.donate = {
 
-  handler: function(request, reply) {
-    reply.redirect('report');
+  handler: function (request, reply) {
+    const data = request.payload;
+    this.donations.push(data);
+    reply.redirect('/report');
   },
 
 };
