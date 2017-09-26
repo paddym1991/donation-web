@@ -24,7 +24,7 @@ exports.report = {
 exports.donate = {
 
   handler: function (request, reply) {
-    const data = request.payload;
+    let data = request.payload;
     data.donor = this.currentUser;
     this.donations.push(data);
     reply.redirect('/report');

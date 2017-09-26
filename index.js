@@ -12,6 +12,14 @@ server.bind({
   donations: [],
 });
 
+//in this case users is an object instead of array
+
+// server.bind({
+//   currentUser: {},   //current user object
+//   users: {},
+//   donations: [],
+// });
+
 server.register([require('inert'), require('vision')], err => {
 
   if (err) {
