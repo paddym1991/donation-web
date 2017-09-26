@@ -2,13 +2,12 @@
 
 const Hapi = require('hapi');
 
-var server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 4000 });
 
-//store a list of users and donations in a simple array
 server.bind({
   // currentUser: {},   //will be using alternative mechanism to track the user
-  users: [],
+  users: {},            //users stored as an object
   donations: [],
 });
 

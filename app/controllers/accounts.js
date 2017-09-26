@@ -17,14 +17,28 @@ exports.signup = {
 };
 
 exports.register = {
+
+  handler: function (request, reply) {
+    const user = request.payload;
+    this.users[user.email] = user;
+    reply.redirect('/login');
+  },
+
+};
+
+exports.authenticate = {
   auth: false,
   handler: function (request, reply) {
-    const data = request.payload;
-    this.users.push(data);
-    // this.currentUser = data;
-    console.log('this is registering');
-    console.log(this.currentUser);
-    reply.redirect('/login');
+    const user = request.payload;
+    if ((user.email in this.users) && (user.password === this.users[user.email].password)) {
+      request.cookieAuth.set({      //setting a session cookie after user credentials are verified
+        loggedIn: true,
+        loggedInUser: user.email,
+      });
+      reply.redirect('/home');
+    } else {
+      reply.redirect('/signup');
+    }
   },
 
 };
@@ -37,50 +51,39 @@ exports.login = {
 
 };
 
-exports.authenticate = {
-  auth: false,
-  handler: function (request, reply) {
-    const user = request.payload;
-    console.log('this is authenticating');
-    console.log(this.users);
-    for (let i = 0; i < this.users.length; i++) {
-      if ((user.email === this.users[i].email) && (user.password === this.users[i].password)) {
-        request.cookieAuth.set({      //
-          loggedIn: true,             //
-          loggedInUser: user.email,   //setting a session cookie after user credentials are verified
-        });                           //
-        reply.redirect('/home');
-      } else {
-        reply.redirect('/login');
-      }
-    }
-  },
-};
-
 //Another way of writing register & authenticate
 
 // exports.register = {
-//
+//   auth: false,
 //   handler: function (request, reply) {
-//     const user = request.payload;
-//     this.users[user.email] = user;
+//     const data = request.payload;
+//     this.users.push(data);
+//     // this.currentUser = data;
+//     console.log('this is registering');
+//     console.log(this.currentUser);
 //     reply.redirect('/login');
 //   },
 //
 // };
 //
 // exports.authenticate = {
-//
+//   auth: false,
 //   handler: function (request, reply) {
 //     const user = request.payload;
-//     if ((user.email in this.users) && (user.password === this.users[user.email].password)) {
-//       this.currentUser = this.users[user.email];
-//       reply.redirect('/home');
-//     } else {
-//       reply.redirect('/signup');
+//     console.log('this is authenticating');
+//     console.log(this.users);
+//     for (let i = 0; i < this.users.length; i++) {
+//       if ((user.email === this.users[i].email) && (user.password === this.users[i].password)) {
+//         request.cookieAuth.set({
+//           loggedIn: true,
+//           loggedInUser: user.email,
+//         });
+//         reply.redirect('/home');
+//       } else {
+//         reply.redirect('/login');
+//       }
 //     }
 //   },
-//
 // };
 
 exports.logout = {

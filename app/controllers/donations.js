@@ -25,7 +25,8 @@ exports.donate = {
 
   handler: function (request, reply) {
     let data = request.payload;
-    data.donor = this.currentUser;
+    const donorEmail = request.auth.credentials.loggedInUser;   //recover the donor email from the cookie
+    data.donor = this.users[donorEmail];                        //recover user's details form database of users
     this.donations.push(data);
     reply.redirect('/report');
   },
