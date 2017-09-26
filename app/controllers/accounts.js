@@ -1,7 +1,7 @@
 'use strict';
 
 exports.main = {
-
+  auth: false,
   handler: function (request, reply) {
     reply.view('main', { title: 'Welcome to Donations' });
   },
@@ -9,7 +9,7 @@ exports.main = {
 };
 
 exports.signup = {
-
+  auth: false,
   handler: function (request, reply) {
     reply.view('signup', { title: 'Sign up for Donations' });
   },
@@ -17,20 +17,20 @@ exports.signup = {
 };
 
 exports.register = {
-
+  auth: false,
   handler: function (request, reply) {
     const data = request.payload;
     this.users.push(data);
     this.currentUser = data;
     console.log('this is registering');
     console.log(this.currentUser);
-    reply.redirect('/home');
+    reply.redirect('/login');
   },
 
 };
 
 exports.login = {
-
+  auth: false,
   handler: function (request, reply) {
     reply.view('login', { title: 'Login to Donations' });
   },
@@ -38,6 +38,7 @@ exports.login = {
 };
 
 exports.authenticate = {
+  auth: false,
   handler: function (request, reply) {
     const data = request.payload;
     console.log('this is authenticating');
@@ -80,7 +81,7 @@ exports.authenticate = {
 // };
 
 exports.logout = {
-
+  auth: false,
   handler: function (request, reply) {
     reply.redirect('/');
   },
