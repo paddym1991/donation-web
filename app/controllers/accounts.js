@@ -11,16 +11,19 @@ exports.main = {
 exports.signup = {
   auth: false,
   handler: function (request, reply) {
+    console.log('signup page');
     reply.view('signup', { title: 'Sign up for Donations' });
   },
 
 };
 
-exports.register = {
-
+exports.registerUser = {
+  auth: false,
   handler: function (request, reply) {
     const user = request.payload;
     this.users[user.email] = user;
+    console.log('this is registering');
+    console.log(user);
     reply.redirect('/login');
   },
 
@@ -35,6 +38,8 @@ exports.authenticate = {
         loggedIn: true,
         loggedInUser: user.email,
       });
+      console.log('this is authenticating');
+      console.log(this.users[user.email]);
       reply.redirect('/home');
     } else {
       reply.redirect('/signup');
@@ -46,6 +51,7 @@ exports.authenticate = {
 exports.login = {
   auth: false,
   handler: function (request, reply) {
+    console.log('Login page');
     reply.view('login', { title: 'Login to Donations' });
   },
 
