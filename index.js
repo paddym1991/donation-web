@@ -7,7 +7,7 @@ server.connection({ port: process.env.PORT || 4000 });
 
 //store a list of users and donations in a simple array
 server.bind({
-  currentUser: {},   //current user object
+  // currentUser: {},   //will be using alternative mechanism to track the user
   users: [],
   donations: [],
 });
