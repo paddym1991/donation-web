@@ -1,5 +1,7 @@
 'use strict';
 
+const Donation = require('../models/donation');   //donation controller can now require the donation model
+
 exports.home = {
 
   handler: (request, reply) => {
@@ -8,27 +10,33 @@ exports.home = {
 
 };
 
-//retrieve donations array
+//updated to use donation.js model
 exports.report = {
 
   handler: function (request, reply) {
-    reply.view('report', {
-      title: 'Donations to Date',
-      donations: this.donations,
+    Donation.find({}).exec().then(allDonations => {
+      reply.view('report', {
+        title: 'Donations to Date',
+        donations: allDonations,
+      });
+    }).catch(err => {
+      reply.redirect('/');
     });
   },
 
 };
 
-//store donation in donations array
+//updated to use donation.js model
 exports.donate = {
 
   handler: function (request, reply) {
     let data = request.payload;
-    const donorEmail = request.auth.credentials.loggedInUser;   //recover the donor email from the cookie
-    data.donor = this.users[donorEmail];                        //recover user's details form database of users
-    this.donations.push(data);
-    reply.redirect('/report');
+    const donation = new Donation(data);
+    donation.save().then(newDonation => {
+      reply.redirect('/report');
+    }).catch(err => {
+      reply.redirect('/');
+    });
   },
 
 };
