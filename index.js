@@ -49,7 +49,7 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
   });
 
   //Cookie set as strategy for all routes.
-  //App will be disabled as all routes are protected (looking for a cookie)
+  //Some routes have set auth to false to counter this and prevent app from crashing
   server.auth.default({
     strategy: 'standard',
   });

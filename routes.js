@@ -15,6 +15,9 @@ module.exports = [
   { method: 'GET', path: '/report', config: Donations.report },
   { method: 'POST', path: '/donate', config: Donations.donate },    //POST route to accept donations
 
+  { method: 'GET', path: '/settings', config: Accounts.viewSettings },
+  { method: 'POST', path: '/settings', config: Accounts.updateSettings },
+
   {
     method: 'GET',
     path: '/{param*}',
