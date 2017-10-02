@@ -1,5 +1,7 @@
 'use strict';
 
+const User = require('../models/user');   //account controller can now require the user model
+
 exports.main = {
   auth: false,
   handler: function (request, reply) {
@@ -17,14 +19,18 @@ exports.signup = {
 
 };
 
+//Can save new users on in database as they are registered
 exports.registerUser = {
   auth: false,
   handler: function (request, reply) {
-    const user = request.payload;
-    this.users[user.email] = user;
+    const user = new User(request.payload);
+    user.save().then(newUser => {
+      reply.redirect('/login');
+    }).catch(err => {
+      reply.redirect('/');
+    });
     console.log('this is registering');
     console.log(user);
-    reply.redirect('/login');
   },
 
 };
@@ -33,19 +39,22 @@ exports.authenticate = {
   auth: false,
   handler: function (request, reply) {
     const user = request.payload;
-    if ((user.email in this.users) && (user.password === this.users[user.email].password)) {
-      request.cookieAuth.set({      //setting a session cookie after user credentials are verified
-        loggedIn: true,
-        loggedInUser: user.email,
-      });
-      console.log('this is authenticating');
-      console.log(this.users[user.email]);
-      reply.redirect('/home');
-    } else {
-      reply.redirect('/signup');
-    }
+    User.findOne({ email: user.email }).then(foundUser => {
+      if (foundUser && foundUser.password === user.password) {
+        request.cookieAuth.set({      //setting a session cookie after user credentials are verified
+          loggedIn: true,
+          loggedInUser: user.email,
+        });
+        console.log('this is authenticating');
+        console.log(foundUser);
+        reply.redirect('/home');
+      } else {
+        reply.redirect('/signup');
+      }
+    }).catch(err => {
+      reply.redirect('/');
+    });
   },
-
 };
 
 exports.login = {
