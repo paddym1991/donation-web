@@ -31,6 +31,7 @@ exports.donate = {
 
   handler: function (request, reply) {
     let data = request.payload;
+    data.donor = request.auth.credentials.loggedInUser;   //When we create a donation, we will insert the currents users email as the donor
     const donation = new Donation(data);
     donation.save().then(newDonation => {
       reply.redirect('/report');
