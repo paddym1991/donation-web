@@ -5,11 +5,15 @@ const Hapi = require('hapi');
 const server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 4000 });
 
-server.bind({
+//server.bind({
   // currentUser: {},   //will be using alternative mechanism to track the user
-  users: {},            //users stored as an object
-  donations: [],
-});
+  //users: {},            //users stored as an object
+  //donations: [],
+//});
+
+
+//deleted existing server objects above and replaced with an import of the db just created
+require('./app/models/db');
 
 //in this case users is an object instead of array
 
