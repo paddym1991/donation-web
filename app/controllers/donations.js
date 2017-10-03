@@ -1,6 +1,7 @@
 'use strict';
 
 const Donation = require('../models/donation');   //donation controller can now require the donation model
+const User = require('../models/user');   //To gain access to the object reference (user)
 
 exports.home = {
 
@@ -26,14 +27,17 @@ exports.report = {
 
 };
 
-//updated to use donation.js model
+//Reimplement the donation handler to establish the link to the donation
 exports.donate = {
 
   handler: function (request, reply) {
-    let data = request.payload;
-    data.donor = request.auth.credentials.loggedInUser;   //When we create a donation, we will insert the currents users email as the donor
-    const donation = new Donation(data);
-    donation.save().then(newDonation => {
+    var userEmail = request.auth.credentials.loggedInUser;
+    User.findOne({ email: userEmail }).then(user => {
+      let data = request.payload;
+      const donation = new Donation(data);
+      donation.donor = user._id;
+      return donation.save();
+    }).then(newDonation => {
       reply.redirect('/report');
     }).catch(err => {
       reply.redirect('/');
