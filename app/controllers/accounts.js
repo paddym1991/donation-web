@@ -63,6 +63,27 @@ exports.registerUser = {
 
 exports.authenticate = {
   auth: false,
+
+  validate: {
+
+    payload: {
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    },
+
+    failAction: function (request, reply, source, error) {
+      reply.view('login', {
+        title: 'Sign up error',
+        errors: error.data.details,
+      }).code(400);
+    },
+
+    options: {
+      abortEarly: false,
+    },
+
+  },
+
   handler: function (request, reply) {
     const user = request.payload;
     User.findOne({ email: user.email }).then(foundUser => {
