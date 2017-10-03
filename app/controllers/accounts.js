@@ -73,7 +73,7 @@ exports.authenticate = {
 
     failAction: function (request, reply, source, error) {
       reply.view('login', {
-        title: 'Sign up error',
+        title: 'Log in error',
         errors: error.data.details,
       }).code(400);
     },
@@ -160,8 +160,10 @@ exports.logout = {
 exports.viewSettings = {
 
   handler: function (request, reply) {
+    console.log('Update settings page');
     const userEmail = request.auth.credentials.loggedInUser;
     User.findOne({ email: userEmail }).then(foundUser => {
+      console.log(foundUser);
       reply.view('settings', { title: 'Edit Account Settings', user: foundUser });
     }).catch(err => {
       reply.redirect('/');
@@ -172,6 +174,33 @@ exports.viewSettings = {
 
 //read a users details from the database, and then update with new values entered by the user
 exports.updateSettings = {
+
+  validate: {
+
+    payload: {
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    },
+
+    failAction: function (request, reply, source, error) {
+      const loggedInUserEmail = request.auth.credentials.loggedInUser;
+      User.findOne({ email: loggedInUserEmail }).then(foundUser => {
+        console.log(foundUser);
+        reply.view('settings', {
+          title: 'Update settings error',
+          errors: error.data.details,
+          user: foundUser,
+        }).code(400);
+      });
+    },
+
+    options: {
+      abortEarly: false,
+    },
+
+  },
 
   handler: function (request, reply) {
     const editedUser = request.payload;
