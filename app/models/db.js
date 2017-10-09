@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 //is deprecated, plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
 mongoose.Promise = global.Promise;
 
-let dbURI = 'mongodb://localhost/donation';
+let dbURI = 'mongodb://donationuser:donationuser@ds113925.mlab.com:13925/donation';
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGOLAB_URI;
 }
