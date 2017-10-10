@@ -25,9 +25,14 @@ exports.report = {
 
   handler: function (request, reply) {
     Donation.find({}).populate('donor').populate('candidate').then(allDonations => {   //populating the donor and candidate fields in the database
+      let total = 0;                        //setting total to '0'
+      allDonations.forEach(donation => {    //for each donation in Donation
+        total += donation.amount;           //total equals previous total plus new donation amount
+      });
       reply.view('report', {
         title: 'Donations to Date',
         donations: allDonations,
+        total: total,
       });
       console.log('all donations');
       console.log(allDonations);
