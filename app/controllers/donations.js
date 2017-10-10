@@ -24,7 +24,7 @@ exports.home = {
 exports.report = {
 
   handler: function (request, reply) {
-    Donation.find({}).populate('donor').then(allDonations => {   //minor update to the report handler - with a populate('donor') call inserted into the query
+    Donation.find({}).populate('donor').populate('candidate').then(allDonations => {   //populating the donor and candidate fields in the database
       reply.view('report', {
         title: 'Donations to Date',
         donations: allDonations,
