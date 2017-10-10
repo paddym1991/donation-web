@@ -7,7 +7,7 @@
             <h3>Enter Amount</h3>
             <div class="field">
               <label>Amount</label>
-                <input type="number" name="amount" required>
+                <input type="number" name="amount">
             </div>
           </div>
           <div class="grouped inline fields">
@@ -38,6 +38,7 @@
           </div>
           <button class="ui blue submit button">Donate</button>
         </form>
+        {{>formerror}}    <!--placeholder in our Donate view to include formerror partial-->
       </div>
     </div>
     <aside class="six wide column">

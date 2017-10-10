@@ -3,6 +3,7 @@
 const Donation = require('../models/donation');   //donation controller can now require the donation model
 const User = require('../models/user');   //To gain access to the object reference (user)
 const Candidate = require('../models/candidate');  //To gain access to the object reference (candidate)
+const Joi = require('joi');
 
 exports.home = {
 
@@ -45,6 +46,27 @@ exports.report = {
 
 //Reimplement the donation handler to establish the link to the donation
 exports.donate = {
+
+  validate: {
+
+    payload: {
+      amount: Joi.number().required(),
+      method: Joi.string().required(),
+      candidate: Joi.string().required(),
+    },
+
+    failAction: function (request, reply, source, error) {
+      reply.view('home', {
+        title: 'Donate error',
+        errors: error.data.details,
+      }).code(400);
+    },
+
+    options: {
+      abortEarly: false,
+    },
+
+  },
 
   handler: function (request, reply) {
     const userEmail = request.auth.credentials.loggedInUser;
