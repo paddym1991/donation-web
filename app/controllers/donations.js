@@ -49,12 +49,14 @@ exports.donate = {
 
   validate: {
 
+    //This defines a schema which defines rules that our fields must adhere to
     payload: {
       amount: Joi.number().required(),
       method: Joi.string().required(),
       candidate: Joi.string().required(),
     },
 
+    //This is the handler to invoke if one or more of the fields fails the validation
     failAction: function (request, reply, source, error) {
       reply.view('home', {
         title: 'Donate error',
