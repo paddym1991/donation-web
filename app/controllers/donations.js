@@ -20,6 +20,8 @@ exports.report = {
         title: 'Donations to Date',
         donations: allDonations,
       });
+      console.log('all donations');
+      console.log(allDonations);
     }).catch(err => {
       reply.redirect('/');
     });
@@ -38,6 +40,8 @@ exports.donate = {
       donation.donor = user._id;
       return donation.save();
     }).then(newDonation => {
+      console.log('new donation');
+      console.log(newDonation);   //logs the new donation made, to console
       reply.redirect('/report');
     }).catch(err => {
       reply.redirect('/');
