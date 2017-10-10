@@ -19,10 +19,14 @@ mongoose.connection.on('connected', function () {
   console.log('Mongoose connected to ' + dbURI);
   //preloading test data, using seeder utility
   if (process.env.NODE_ENV != 'production') {
-    var seeder = require('mongoose-seeder');
-    const data = require('../../data.json');
-    const Donation = require('./donation');
-    const User = require('./user');
+    const seeder = require('mongoose-seeder');    //import the seeder library
+    const data = require('../../data.json');      //import the initial data json
+    const Donation = require('./donation');       //import the Donation schema
+    const User = require('./user');               //import the User schema
+    const Candidate = require('./candidate.js');  //import the Candidate Schema
+    //call the seed component
+    //pass 'data' loaded from json file
+    //options: keep the database  + delete contents of all collections
     seeder.seed(data, { dropDatabase: false, dropCollections: true }).then(dbData => {
       console.log('preloading Test Data');
       console.log(dbData);
