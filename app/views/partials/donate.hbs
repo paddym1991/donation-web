@@ -27,6 +27,18 @@
               </div>
             </div>
           </div>
+          <!--present the candidate list as a radio button sequence-->
+          <div class="grouped inline fields">
+            <h3> Select Candidate </h3>
+            {{#each candidates }}
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="candidate" value="{{lastName}},{{firstName}}">
+                  <label>{{lastName}}, {{firstName}}</label>
+                </div>
+              </div>
+            {{/each}}
+          </div>
           <button class="ui blue submit button">Donate</button>
         </form>
       </div>

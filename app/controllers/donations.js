@@ -2,11 +2,20 @@
 
 const Donation = require('../models/donation');   //donation controller can now require the donation model
 const User = require('../models/user');   //To gain access to the object reference (user)
+const Candidate = require('../models/candidate');  //To gain access to the object reference (candidate)
 
 exports.home = {
 
-  handler: (request, reply) => {
-    reply.view('home', { title: 'Make a Donation' });
+  //pass the list of candidates to the view to enable the user to select which candidate to make a donation to
+  handler: function (request, reply) {
+    Candidate.find({}).then(candidates => {
+      reply.view('home', {
+        title: 'Make a Donation',
+        candidates: candidates,
+      });
+    }).catch(err => {
+      reply.redirect('/');
+    });
   },
 
 };
@@ -33,12 +42,19 @@ exports.report = {
 exports.donate = {
 
   handler: function (request, reply) {
-    var userEmail = request.auth.credentials.loggedInUser;
-    User.findOne({ email: userEmail }).then(user => {
+    const userEmail = request.auth.credentials.loggedInUser;
+    let userId = null;
+    let donation = null;
+    User.findOne({ email: userEmail }).then(user => {   //locate user object
       let data = request.payload;
-      const donation = new Donation(data);
-      donation.donor = user._id;
-      return donation.save();
+      userId = user._id;
+      donation = new Donation(data);    //create new donation
+      const rawCandidate = request.payload.candidate.split(',');
+      return Candidate.findOne({ lastName: rawCandidate[0], firstName: rawCandidate[1] });  //locate candidate object
+    }).then(candidate => {
+      donation.donor = userId;
+      donation.candidate = candidate._id;   //initialize new donation with user and candidate IDs
+      return donation.save();   //save donation
     }).then(newDonation => {
       console.log('new donation');
       console.log(newDonation);   //logs the new donation made, to console
