@@ -3,6 +3,10 @@
 const Candidate = require('../models/candidate');
 const Boom = require('boom');
 
+/**
+ * Handler for retrieving all candidats
+ * @type {{auth: boolean, handler: exports.find.handler}}
+ */
 exports.find = {
 
   auth: false,
@@ -17,6 +21,10 @@ exports.find = {
 
 };
 
+/**
+ * Handler for retrieving a single candidate
+ * @type {{auth: boolean, handler: exports.findOne.handler}}
+ */
 exports.findOne = {
 
   auth: false,
@@ -29,4 +37,59 @@ exports.findOne = {
     });
   },
 
-}
+};
+
+/**
+ * Handler for creating a single candidate
+ * @type {{auth: boolean, handler: exports.create.handler}}
+ */
+exports.create = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    const candidate = new Candidate(request.payload);
+    candidate.save().then(newCandidate => {
+      reply(newCandidate).code(201);
+    }).catch(err => {
+      reply(Boom.badImplementation('error creating candidate'));
+    });
+  },
+
+};
+
+/**
+ * Handler for deleting all candidates
+ * @type {{auth: boolean, handler: exports.deleteAll.handler}}
+ */
+exports.deleteAll = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    Candidate.remove({}).then(err => {
+      reply().code(204);
+    }).catch(err => {
+      reply(Boom.badImplementation('error removing candidates'));
+    });
+  },
+
+};
+
+/**
+ * Handler for deleting a single candidate
+ * @type {{auth: boolean, handler: exports.deleteOne.handler}}
+ */
+exports.deleteOne = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    Candidate.remove({ _id: request.params.id }).then(candidate => {
+      reply(candidate).code(204);
+    }).catch(err => {
+      reply(Boom.notFound('id not found'));
+    });
+  },
+
+};

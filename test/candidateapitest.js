@@ -29,7 +29,7 @@ suite('Candidate API tests', function () {
   test('get one candidate', function () {
 
     const allCandidatesUrl = 'http://localhost:4000/api/candidates';
-    var res = request('GET', allCandidatesUrl);
+    let res = request('GET', allCandidatesUrl);
     const candidates = JSON.parse(res.getBody('utf8'));
 
     const oneCandidateUrl = allCandidatesUrl + '/' + candidates[0]._id;
@@ -39,6 +39,25 @@ suite('Candidate API tests', function () {
     assert.equal(oneCandidate.firstName, 'Lisa');
     assert.equal(oneCandidate.lastName, 'Simpson');
     assert.equal(oneCandidate.office, 'President');
+
+  });
+
+  test('create a candidate', function () {
+
+    const candidatesUrl = 'http://localhost:4000/api/candidates';
+    //invoke a POST route using the sync-request library
+    const newCandidate = {
+      firstName: 'Barnie',
+      lastName: 'Grumble',
+      office: 'President',
+    };
+
+    const res = request('POST', candidatesUrl, { json: newCandidate }); //end of POST
+    const returnedCandidate = JSON.parse(res.getBody('utf8'));
+
+    assert.equal(returnedCandidate.firstName, 'Barnie');
+    assert.equal(returnedCandidate.lastName, 'Grumble');
+    assert.equal(returnedCandidate.office, 'President');
 
   });
 

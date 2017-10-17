@@ -20,7 +20,7 @@ mongoose.connection.on('connected', function () {
   //preloading test data, using seeder utility
   if (process.env.NODE_ENV != 'production') {
     const seeder = require('mongoose-seeder');    //import the seeder library
-    const data = require('../../data.json');      //import the initial data json
+    const data = require('./data.json');      //import the initial data json
     const Donation = require('./donation');       //import the Donation schema
     const User = require('./user');               //import the User schema
     const Candidate = require('./candidate.js');  //import the Candidate Schema
