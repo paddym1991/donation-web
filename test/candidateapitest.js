@@ -61,5 +61,27 @@ suite('Candidate API tests', function () {
 
   });
 
+  test('delete one candidate', function () {
+
+    const allCandidatesUrl = 'http://localhost:4000/api/candidates';
+    let res = request('GET', allCandidatesUrl);
+    const candidates = JSON.parse(res.getBody('utf8'));
+
+    const deleteOneCandidateUrl = allCandidatesUrl + '/' + candidates[0]._id;
+    let rem = request('Delete', deleteOneCandidateUrl);
+
+    assert.equal(rem.statusCode, '204');
+
+  });
+
+  test('delete all candidates', function () {
+
+    const allCandidatesUrl = 'http://localhost:4000/api/candidates';
+    let res = request('DELETE', allCandidatesUrl);
+
+    assert.equal(res.statusCode, '204');
+
+  });
+
 });
 
