@@ -16,3 +16,17 @@ exports.find = {
   },
 
 };
+
+exports.findOne = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    Candidate.findOne({ _id: request.params.id }).then(candidate => {
+      reply(candidate);
+    }).catch(err => {
+      reply(Boom.notFound('id not found'));
+    });
+  },
+
+}
