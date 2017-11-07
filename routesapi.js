@@ -1,4 +1,5 @@
 const CandidatesApi = require('./app/api/candidatesapi');
+const UsersApi = require('.app/api/usersapi');
 
 module.exports = [
   { method: 'GET', path: '/api/candidates', config: CandidatesApi.find },   //route for retrieving all candidates
