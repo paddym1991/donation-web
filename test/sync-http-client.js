@@ -21,7 +21,7 @@ class SyncHttpService {
       returnedObj = JSON.parse(res.getBody('utf8'));
     }
 
-    return returnedObj;á
+    return returnedObj;
   }
 
   post(url, obj) {

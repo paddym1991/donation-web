@@ -11,7 +11,8 @@ suite('Candidate API tests', function () {
   let candidates = fixtures.candidates;
   let newCandidate = fixtures.newCandidate;
 
-  const donationService = new DonationService('http://localhost:4000');
+  //const donationService = new DonationService('http://localhost:4000');
+  const donationService = new DonationService(fixtures.donationService);
 
   //These (beforeEach & afterEach) are run before and after each test - clearing our the candidates
   // model so that each test can be considered completely independently
