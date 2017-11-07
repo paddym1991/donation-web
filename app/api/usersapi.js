@@ -22,8 +22,14 @@ exports.findOne = {
   auth: false,
 
   handler: function (request, reply) {
+    //the findOne query will generate an exception if the key is an invalid length,
+    // but will return a null object if it fails to find a matching object for a correctly formed key.
     User.findOne({ _id: request.params.id }).then(user => {
-      reply(user);
+      if (user != null) {
+        reply(user);
+      }
+
+      reply(Boom.notFound('id not found'));
     }).catch(err => {
       reply(Boom.notFound('id not found'));
     });
