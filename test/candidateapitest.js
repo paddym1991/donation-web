@@ -11,11 +11,11 @@ suite('Candidate API tests', function () {
 
   const donationService = new DonationService('http://localhost:4000');
 
+  //simplified test will fail. The returned object contains the fields as expected,
+  // but also additional, legitimate, fields that cause the equals test to fail
   test('create a candidate', function () {
     const returnedCandidate = donationService.createCandidate(newCandidate);
-    assert.equal(returnedCandidate.firstName, newCandidate.firstName);
-    assert.equal(returnedCandidate.lastName, newCandidate.lastName);
-    assert.equal(returnedCandidate.office, newCandidate.office);
+    assert.equal(returnedCandidate, newCandidate);
     assert.isDefined(returnedCandidate._id);
   });
 });
