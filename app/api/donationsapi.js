@@ -59,3 +59,17 @@ exports.deleteAllDonations = {
   },
 
 };
+
+exports.deleteCandidateDonations = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    Donation.remove({ candidate: request.params.id }).then(err => {
+      reply().code(204);
+    }).catch(err => {
+      reply(Boom.badImplementation('error removing Donations'));
+    });
+  },
+
+};
