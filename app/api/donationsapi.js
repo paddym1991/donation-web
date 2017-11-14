@@ -29,3 +29,33 @@ exports.findDonations = {
   },
 
 };
+
+exports.makeDonation = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    const donation = new Donation(request.payload);
+    donation.candidate = request.params.id;
+    donation.save().then(newDonation => {
+      reply(newDonation).code(201);
+    }).catch(err => {
+      reply(Boom.badImplementation('error making donation'));
+    });
+  },
+
+};
+
+exports.deleteAllDonations = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    Donation.remove({}).then(err => {
+      reply().code(204);
+    }).catch(err => {
+      reply(Boom.badImplementation('error removing Donations'));
+    });
+  },
+
+};
