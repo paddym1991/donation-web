@@ -1,5 +1,6 @@
 const CandidatesApi = require('./app/api/candidatesapi');
 const UsersApi = require('./app/api/usersapi');
+const DonationsApi = require('./app/api/donationsapi');
 
 module.exports = [
   { method: 'GET', path: '/api/candidates', config: CandidatesApi.find },   //route for retrieving all candidates
@@ -13,4 +14,6 @@ module.exports = [
   { method: 'POST', path: '/api/users', config: UsersApi.create },
   { method: 'DELETE', path: '/api/users/{id}', config: UsersApi.deleteOne },
   { method: 'DELETE', path: '/api/users', config: UsersApi.deleteAll },
+
+  { method: 'GET', path: '/api/donations', config: DonationsApi.findAllDonations },
 ];
