@@ -16,4 +16,5 @@ module.exports = [
   { method: 'DELETE', path: '/api/users', config: UsersApi.deleteAll },
 
   { method: 'GET', path: '/api/donations', config: DonationsApi.findAllDonations },
+  { method: 'GET', path: '/api/candidates/{id}/donations', config: DonationsApi.findDonations },
 ];
