@@ -38,7 +38,9 @@ exports.makeDonation = {
     const donation = new Donation(request.payload);
     donation.candidate = request.params.id;
     donation.save().then(newDonation => {
-      reply(newDonation).code(201);
+      Donation.findOne(newDonation).populate('candidate').then(donation => {
+        reply(donation).code(201);
+      });
     }).catch(err => {
       reply(Boom.badImplementation('error making donation'));
     });
