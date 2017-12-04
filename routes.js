@@ -18,6 +18,8 @@ module.exports = [
   { method: 'GET', path: '/settings', config: Accounts.viewSettings },
   { method: 'POST', path: '/settings', config: Accounts.updateSettings },
 
+  { method: 'DELETE', path: '/api/candidates/{id}/donations', config: DonationsApi.deleteDonations },
+
   {
     method: 'GET',
     path: '/{param*}',
