@@ -27,7 +27,9 @@ exports.find = {
  */
 exports.findOne = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     //the findOne query will generate an exception if the key is an invalid length,
@@ -51,7 +53,9 @@ exports.findOne = {
  */
 exports.create = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     const candidate = new Candidate(request.payload);
@@ -70,7 +74,9 @@ exports.create = {
  */
 exports.deleteAll = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Candidate.remove({}).then(err => {
@@ -88,7 +94,9 @@ exports.deleteAll = {
  */
 exports.deleteOne = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Candidate.remove({ _id: request.params.id }).then(candidate => {

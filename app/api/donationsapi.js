@@ -5,7 +5,9 @@ const Boom = require('boom');
 
 exports.findAllDonations = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Donation.find({}).populate('donor').populate('candidate').then(donations => {
@@ -18,7 +20,9 @@ exports.findAllDonations = {
 
 exports.findDonations = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Donation.find({ candidate: request.params.id }).then(donations => {
@@ -32,7 +36,9 @@ exports.findDonations = {
 
 exports.makeDonation = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     const donation = new Donation(request.payload);
@@ -50,7 +56,9 @@ exports.makeDonation = {
 
 exports.deleteAllDonations = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Donation.remove({}).then(err => {
@@ -64,7 +72,9 @@ exports.deleteAllDonations = {
 
 exports.deleteDonations = {
 
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Donation.remove({ candidate: request.params.id }).then(result => {
