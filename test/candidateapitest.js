@@ -3,28 +3,26 @@
 const assert = require('chai').assert;
 const DonationService = require('./donation-service');
 const fixtures = require('./fixtures.json');
-//We need a comparison that will test to see if the returnedCandidate is a superset of the newCandidate object
 const _ = require('lodash');
 
 suite('Candidate API tests', function () {
 
+  let users = fixtures.users;
   let candidates = fixtures.candidates;
   let newCandidate = fixtures.newCandidate;
 
-  //const donationService = new DonationService('http://localhost:4000');
   const donationService = new DonationService(fixtures.donationService);
 
-  //These (beforeEach & afterEach) are run before and after each test - clearing our the candidates
-  // model so that each test can be considered completely independently
   beforeEach(function () {
+    donationService.login(users[0]);
     donationService.deleteAllCandidates();
   });
 
   afterEach(function () {
     donationService.deleteAllCandidates();
+    donationService.logout();
   });
 
-  //simplified test with lodash
   test('create a candidate', function () {
     const returnedCandidate = donationService.createCandidate(newCandidate);
     assert(_.some([returnedCandidate], newCandidate), 'returnedCandidate must be a superset of newCandidate');
