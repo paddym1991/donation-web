@@ -56,13 +56,13 @@ suite('Donation API tests', function () {
     assert.equal(d2.length, 0);
   });
 
-  test("delete a candidate's donations", function () {
+  test('delete donations', function () {
     const returnedCandidate = donationService.createCandidate(newCandidate);
     for (let i = 0; i < donations.length; i++) {
       donationService.makeDonation(returnedCandidate._id, donations[i]);
     }
 
-    donationService.deleteCandidateDonations(returnedCandidate._id);
+    donationService.deleteDonations(returnedCandidate._id);
     const d = donationService.getDonations(returnedCandidate._id);
     assert.equal(d.length, 0);
   });
