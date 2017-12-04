@@ -2,6 +2,9 @@
 
 const Hapi = require('hapi');
 
+//make app accessible from an SPA. import 'hapi-cors'
+const corsHeaders = require('hapi-cors-headers');
+
 const server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 4000 });
 
@@ -58,6 +61,8 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
     strategy: 'standard',
   });
 
+  //enable hapi-cors
+  server.ext('onPreResponse', corsHeaders);
   server.route(require('./routes'));
   //include routeapi route into the application server
   server.route(require('./routesapi'));
