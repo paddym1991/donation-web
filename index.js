@@ -8,12 +8,8 @@ const corsHeaders = require('hapi-cors-headers');
 const server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 4000 });
 
-//server.bind({
-  // currentUser: {},   //will be using alternative mechanism to track the user
-  //users: {},            //users stored as an object
-  //donations: [],
-//});
-
+//define a new strategy, which will be in addition to the strategy already in place
+const utils = require('./app/api/utils.js');
 
 //deleted existing server objects above and replaced with an import of the db just created
 require('./app/models/db');
@@ -28,7 +24,7 @@ require('./app/models/db');
 
 
 //registering plugins
-server.register([require('inert'), require('vision'), require('hapi-auth-cookie')], err => {
+server.register([require('inert'), require('vision'), require('hapi-auth-cookie'), require('hapi-auth-jwt2')], err => {
 
   if (err) {
     throw err;
@@ -53,6 +49,16 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
     isSecure: false,
     ttl: 24 * 60 * 60 * 1000,
     redirectTo: '/login',
+  });
+
+  /**
+   * define a new strategy, which will be in addition to the strategy already in place.
+   * 'validateFunc' is specified here as part of the strategy
+   */
+  server.auth.strategy('jwt', 'jwt', {
+    key: 'secretpasswordnotrevealedtoanyone',
+    validateFunc: utils.validate,
+    verifyOptions: { algorithms: ['HS256'] },
   });
 
   //Cookie set as strategy for all routes.
